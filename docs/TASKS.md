@@ -1,5 +1,7 @@
 # TASK ASSIGNMENTS – LAB 3
 
+**Công nghệ bắt buộc: Verilog/SystemVerilog cho cả RTL và testbench, không Python/MATLAB.** Xem [kiểm thử thuần SystemVerilog](RTL_ONLY_VERIFICATION.md).
+
 **Nguyên tắc độc lập:** TV1 và TV2 chỉ dùng [SPECIFICATION.md](SPECIFICATION.md) và [COEFFICIENTS_Q5_27.md](COEFFICIENTS_Q5_27.md); không dùng module/RTL của nhau trong quá trình phát triển. TV3 ghép ba module ở top. Leader kiểm tra chất lượng và tích hợp.
 
 ## TV1 – Bass + Mid IIR (không phụ thuộc TV2)
@@ -12,10 +14,10 @@
 3. Tạo tb_bass_eq.sv, tb_mid_eq.sv, không lệ thuộc code TV2/TV3.
 4. Kiểm tra signed arithmetic Q4.28/Q5.27, rounding/saturation, reset/state.
 5. Xác minh gain 0/±3/±6/±9/±12, impulse, tone/multi-tone/edge values.
-6. So sánh FFT/đáp ứng tần số với mô hình độc lập. Ghi rõ latency và cách thay coefficients an toàn.
+6. Dùng **SystemVerilog testbench** tạo single-tone/multi-tone, đo đáp ứng biên độ bằng sine/cosine correlation; so với đáp ứng kỳ vọng của bảng hệ số. Ghi rõ latency và cách thay coefficients an toàn. Không dùng Python.
 
 ### Bàn giao
-- RTL + testbench; log PASS/FAIL; waveform có chú thích; file CSV/FFT; mô tả nguyên lý + fixed-point + latency.
+- RTL + SystemVerilog testbench; log PASS/FAIL; waveform có chú thích; log/CSV xuất từ testbench nếu cần; mô tả nguyên lý + fixed-point + latency.
 - PR lên nhánh feat/tv1-bass-mid.
 
 **PASS khi:** Hai module có testbench tự kiểm tra, không mất/đảo sample; đáp ứng phù hợp reference trong giới hạn [VERIFICATION.md](VERIFICATION.md).
@@ -33,7 +35,7 @@
 6. Bàn giao mô tả mapping SW/KEY, latency và cách load hệ số tại sample boundary.
 
 ### Bàn giao
-- RTL + 2 testbench + log PASS/FAIL + waveform/FFT + bảng control.
+- RTL + 2 SystemVerilog testbench + log PASS/FAIL + waveform/kết quả đo gain + bảng control.
 - PR lên nhánh feat/tv2-treble-control.
 
 **PASS khi:** Treble đúng reference; control hoạt động độc lập, không sinh nhiều xung mỗi nhấn; không có kết nối tới RTL TV1.
@@ -60,7 +62,7 @@
 
 1. Chốt SPEC, theo dõi tiến độ và giữ interface chung.
 2. Duyệt PR của TV1/2/3 và chỉ merge khi evidence có kiểm chứng.
-3. Xây dựng/kiểm tra Python floating-point model + fixed-point tolerance.
+3. Review các **testbench SystemVerilog tự kiểm tra**, phép đo gain/đáp ứng tần số và sai số fixed-point; **không yêu cầu Python hoặc MATLAB**.
 4. Phân tích frequency response, overflow, transient, CDC, latency/timing/resource.
 5. Điều phối buổi nạp DE10 và demo, tổng hợp ảnh/video + soạn báo cáo.
 6. Nộp ZIP lên LMS. Chỉ làm bonus sau khi yêu cầu 3-band PASS.
