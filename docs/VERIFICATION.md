@@ -2,12 +2,14 @@
 
 > **Chưa có kết quả PASS.** Mọi kết quả phải đi kèm testbench/log/ảnh/CSV; không suy ra đúng từ việc compile thành công.
 
+**Tất cả stimulus, scoreboard và đo đạc dùng SystemVerilog testbench**, không Python/MATLAB. Xem [RTL_ONLY_VERIFICATION.md](RTL_ONLY_VERIFICATION.md). Các phép toán `real`, `$sin`, `$cos` chỉ dùng khi mô phỏng; RTL tổng hợp dùng fixed-point.
+
 ## 1. Test tại mức module
 - **Impulse:** trạng thái IIR đúng, reset/xóa state, latency xác định.
 - **9 mức gain:** kiểm từng band ở −12/−9/−6/−3/0/+3/+6/+9/+12 dB.
-- **Single-tone:** 100 Hz (Bass), 1 kHz (Mid), 10 kHz (Treble), đo FFT sau thời gian quá độ.
+- **Single-tone:** 100 Hz (Bass), 1 kHz (Mid), 10 kHz (Treble); sau thời gian quá độ, testbench SV đo biên độ bằng tích tương quan sin/cos (DFT một tần số).
 - **Multi-tone:** ví dụ x[n]=0.05·(sin(2π100n/fs)+sin(2π1000n/fs)+sin(2π10000n/fs)).
-- **Sweep:** đáp ứng frequency response, nhất là vùng giao nhau 250Hz và 4kHz.
+- **Frequency-response:** lặp nhiều single-tone trong testbench SV, đo đáp ứng từng điểm tần số; chú ý vùng 250Hz và 4kHz.
 - **Fixed point:** PCM signed min/max, zero, saturation, coefficient update, gain step, no wrap-around.
 - **Throughput:** 48k samples/s, input_valid→output_valid 1:1 theo đúng thứ tự.
 - **Band independence:** thay 1 gain, 2 gain_sel khác giữ nguyên; đo tác động tần số ngoài band.
@@ -21,18 +23,18 @@
 5. **Quartus:** compiler report, ALM/register/DSP/RAM, TimeQuest, Fmax, slack, cảnh báo CDC.
 
 ## 3. Ngưỡng nghiệm thu gợi ý
-- Đo gain ở tone trung tâm (sau khi bỏ quá độ): sai lệch với **mô hình số tham chiếu đã lượng tử hóa hệ số** ≤ 1 dB cho các trường hợp test không clipping.
+- Đo gain ở tone kiểm thử (sau khi bỏ quá độ): sai lệch giữa kết quả RTL và **đáp ứng dự kiến tính độc lập từ hệ số/giá trị thiết kế**, mục tiêu ≤ 1 dB khi không clipping. Tính/đo bằng SystemVerilog TB, ghi rõ cách tính, không dùng chính đầu ra DUT làm expected.
 - Với gain=0 dB tất cả band, đáp ứng phải xấp xỉ phẳng; mô tả sai số số học bằng reference.
 - Không được mất/lặp/đảo mẫu trong chuỗi kiểm thử liên tục.
 - TimeQuest: ≥ 50 MHz ở miền DSP, **slack ≥ 0** cho các ràng buộc hợp lệ.
 - Phải báo cáo các trường hợp clipping và điều kiện headroom; không lấy tín hiệu đã clipping làm bằng chứng đáp ứng filter.
 
 ## 4. Quy định nộp evidence
-- Đặt file theo dạng: tv1_bass_100hz_plus12_fft.png, tv2_gain_reset_wave.png, tv3_loopback_DE10.mp4.
+- Đặt file theo dạng: tv1_bass_100hz_plus12_gain.png, tv2_gain_reset_wave.png, tv3_loopback_DE10.mp4.
 - Mỗi ảnh có **tên tín hiệu, trục thời gian/tần số, điều kiện test, giá trị đặt, kết quả**.
 - Không cắt/chỉnh sửa ảnh theo cách làm mất thông tin đo. Lưu ảnh gốc + ảnh chú thích nếu cần.
 - Log phải chứa PASS/FAIL, số test, môi trường simulator và phiên bản mã/commit.
-- Báo cáo phải phân biệt **dữ liệu Python reference**, **HDL simulation**, **hardware measurement**.
+- Báo cáo phải phân biệt **hệ số lý thuyết**, **kết quả SystemVerilog testbench** và **số đo phần cứng FPGA**.
 
 ## 5. Reporting
 Báo cáo PDF + RTL + testbench + project Quartus đóng thành 1 ZIP theo đề, deadline lấy LMS. Các phần: cơ sở DSP, lựa chọn filter, block diagram/data path, Q-format, testbench & FFT, synthesis/time, demo, giới hạn và hướng nâng cấp.
