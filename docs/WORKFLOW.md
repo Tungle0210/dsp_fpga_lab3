@@ -1,10 +1,12 @@
 # Workflow & GitHub guide
 
+**Chỉ dùng Verilog/SystemVerilog cho thiết kế và testbench**. Không giao nhiệm vụ Python, MATLAB hoặc tạo script xử lý DSP ngoài HDL. Xem [hướng dẫn kiểm thử SV](RTL_ONLY_VERIFICATION.md).
+
 ## Thành viên bắt đầu
 1. Đọc README → SPECIFICATION → TASKS → VERIFICATION.
 2. Clone repo, tự tạo feature branch theo nhiệm vụ, tuyệt đối không làm trực tiếp trên main.
 3. Mỗi commit rõ: feat/filter, fix/overflow, test/tone, docs/report.
-4. Chạy self-checking testbench; lưu log/ảnh/FFT/evidence đúng thư mục.
+4. Chạy self-checking SystemVerilog testbench; lưu log/ảnh waveform/kết quả đo gain và evidence đúng thư mục.
 5. Push branch, mở Pull Request, gắn Issue tương ứng, đợi Leader review.
 
 ### Lệnh ví dụ
@@ -20,7 +22,7 @@ git push -u origin feat/tv2-treble-control
 ## Pull Request cần có
 - Mục tiêu, module sửa, chuẩn I/O và tài liệu tham chiếu.
 - Các test đã chạy, simulator, số PASS/FAIL.
-- Ảnh waveform/FFT, thông số đo, latency/throughput, Q-format.
+- Ảnh waveform, log SystemVerilog PASS/FAIL và bảng kết quả đo gain/đáp ứng, latency/throughput, Q-format.
 - Thay đổi của spec/coefficient cần có lý do và Leader duyệt.
 - TV1, TV2 không sửa trực tiếp file thuộc nhau, trừ khi PR giải thích.
 
