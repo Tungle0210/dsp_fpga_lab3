@@ -6,6 +6,19 @@
 
 ---
 
+## BẮT ĐẦU TỪ ĐÂY — NHIỆM VỤ TRÊN GITHUB
+
+| Vai trò | Issue công việc | Branch đề xuất |
+|---|---|---|
+| **TV1 — Bass + Mid** | [Issue #1: RTL + Testbench + FFT](https://github.com/Tungle0210/dsp_fpga_lab3/issues/1) | `feat/tv1-bass-mid` |
+| **TV2 — Treble + Gain** | [Issue #2: RTL + Testbench + KEY/SW](https://github.com/Tungle0210/dsp_fpga_lab3/issues/2) | `feat/tv2-treble-control` |
+| **TV3 — CODEC + FPGA** | [Issue #3: Audio RX/TX + Quartus](https://github.com/Tungle0210/dsp_fpga_lab3/issues/3) | `feat/tv3-audio-integration` |
+| **Leader — QA/Report** | [Issue #4: Review + nghiệm thu](https://github.com/Tungle0210/dsp_fpga_lab3/issues/4) | `docs/qa-report` |
+
+**Đọc chung:** [Thông số kỹ thuật](docs/SPECIFICATION.md) · [Bảng hệ số](docs/COEFFICIENTS_Q5_27.md) · [Test Plan](docs/VERIFICATION.md). Các Issue hiện **chưa gán tên thành viên** vì chưa có GitHub username của họ.
+
+---
+
 ## 1. TỔNG QUAN VÀ YÊU CẦU ĐỀ BÀI
 
 **Mục tiêu:** Thiết kế **Audio Equalizer 3 dải Bass – Mid – Treble** trên FPGA, điều chỉnh gain từng dải độc lập theo thời gian thực, nhận âm thanh từ laptop/điện thoại và phát âm thanh đã xử lý ra loa.
