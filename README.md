@@ -2,6 +2,8 @@
 
 **Nhóm Lab 3 – DE10-Standard | Leader: quản lý specification, code review, QA và báo cáo**
 
+**QUY ĐỊNH NGÔN NGỮ:** Toàn bộ RTL và testbench sử dụng **Verilog/SystemVerilog**; **không dùng Python, MATLAB hoặc chương trình ngoài để thiết kế/xác minh bộ lọc**. Hằng số IIR đặt trực tiếp trong SystemVerilog (case/ROM hằng hoặc file `.svh`). Các phép `$sin/$cos` chỉ được phép trong **testbench mô phỏng**, không nằm trong RTL tổng hợp.
+
 > **Trạng thái: BẮT ĐẦU DỰ ÁN (Planning / Development).** README này là hướng dẫn nhóm, **không có nghĩa RTL, mô phỏng hoặc demo đã PASS**. Đọc kỹ các tài liệu liên kết trước khi viết code.
 
 ---
@@ -15,7 +17,7 @@
 | **TV3 — CODEC + FPGA** | [Issue #3: Audio RX/TX + Quartus](https://github.com/Tungle0210/dsp_fpga_lab3/issues/3) | `feat/tv3-audio-integration` |
 | **Leader — QA/Report** | [Issue #4: Review + nghiệm thu](https://github.com/Tungle0210/dsp_fpga_lab3/issues/4) | `docs/qa-report` |
 
-**Đọc chung:** [Thông số kỹ thuật](docs/SPECIFICATION.md) · [Bảng hệ số](docs/COEFFICIENTS_Q5_27.md) · [Test Plan](docs/VERIFICATION.md). Các Issue hiện **chưa gán tên thành viên** vì chưa có GitHub username của họ.
+**Đọc chung:** [Thông số kỹ thuật](docs/SPECIFICATION.md) · [Bảng hệ số](docs/COEFFICIENTS_Q5_27.md) · [Test Plan](docs/VERIFICATION.md) · [Kiểm thử thuần SV](docs/RTL_ONLY_VERIFICATION.md). Các Issue hiện **chưa gán tên thành viên** vì chưa có GitHub username của họ.
 
 ---
 
@@ -95,7 +97,7 @@ Laptop / Phone (Line-Out)
 - Thiết kế **bass_eq.sv** (low-shelf) và **mid_eq.sv** (peaking), dùng spec và hệ số đã chốt.
 - Viết **tb_bass_eq.sv**, **tb_mid_eq.sv** (tự kiểm tra PASS/FAIL).
 - Test gain 0, ±3, ±6, ±9, ±12 dB; impulse, single-tone, multi-tone, reset, giới hạn dữ liệu.
-- Nộp: **RTL + testbench + log PASS + FFT/frequency-response + latency + tài liệu Q-format**.
+- Nộp: **RTL + SystemVerilog testbench + log PASS + đáp ứng tần số đo trong testbench + latency + tài liệu Q-format**.
 - **Không phụ thuộc TV2**; module nhận PCM24 mẫu giả lập, gain_sel đầu vào.
 
 ### TV2 – Treble & Gain Controller
@@ -104,7 +106,7 @@ Laptop / Phone (Line-Out)
 - Thiết kế **treble_eq.sv** (high-shelf).
 - Thiết kế **gain_controller.sv**: KEY/SW, debounce, 3 gain_sel độc lập, giữ giới hạn 0..8, bypass.
 - Test **treble_eq** và **gain_controller** bằng các nguồn giả lập; **không import TV1**.
-- Nộp: **RTL + testbench + log PASS + FFT/frequency-response Treble + bảng KEY/SW + latency**.
+- Nộp: **RTL + SystemVerilog testbench + log PASS + đáp ứng tần số đo trong testbench + bảng KEY/SW + latency**.
 
 ### TV3 – CODEC, FPGA & Integration
 **Thư mục:** rtl/audio/, rtl/common/, rtl/top/, quartus/, tb/, doc/
@@ -186,8 +188,7 @@ dsp_fpga_lab3/
 │   ├── audio/                       # TV3
 │   ├── common/                      # TV3
 │   └── top/                         # TV3
-├── coeff/                           # Coefficients / .hex khi có
-├── python/                          # Mô hình tham chiếu khi có
+├── coeff/                           # Bảng hệ số hằng, .svh hoặc .hex đọc bằng $readmemh trong RTL
 ├── tb/                              # Các testbench
 ├── quartus/                         # qpf/qsf/sdc; không push cache
 └── doc/
@@ -203,7 +204,7 @@ dsp_fpga_lab3/
 | Mốc | Điều kiện | Phụ trách |
 |---|---|---|
 | M1 | Spec + giao diện + mapping được thống nhất | Leader |
-| M2 | Bass/Mid RTL + TB/FFT PASS | TV1 |
+| M2 | Bass/Mid RTL + testbench đo gain PASS | TV1 |
 | M3 | Treble/Gain Controller + TB PASS | TV2 |
 | M4 | ADC→DAC loopback trên DE10 PASS | TV3 |
 | M5 | Tích hợp 3-band, gain độc lập, unity/bypass, không mất mẫu | TV3 + Leader |
