@@ -1,5 +1,7 @@
 # Biquad EQ – 27 bộ hệ số signed 32-bit Q5.27 (v1.0)
 
+**Quy định sử dụng:** Đây là bảng **hằng số đầu vào** của RTL. TV1/TV2 viết bộ chọn hệ số bằng `case(gain_sel)`/`localparam`/SystemVerilog ROM hoặc `$readmemh` vào ROM tĩnh. Không cần và **không dùng Python/MATLAB** để sinh coefficient khi chạy mô phỏng hoặc trên FPGA. Kiểm tra kết quả bằng SystemVerilog testbench.
+
 > **Hệ số tham chiếu đã tính theo RBJ Audio EQ Cookbook; CHƯA chứng minh khớp RTL hoặc FPGA**. fs=48,000 Hz, a0=1; lượng tử hóa round-to-nearest ties-to-even × 2^27. Công thức RTL: y=b0x0+b1x1+b2x2−a1y1−a2y2. Thứ tự: **B0, B1, B2, A1, A2**.
 
 **gain_sel 0..8** lần lượt là **−12,−9,−6,−3,0,+3,+6,+9,+12 dB**. Literal SystemVerilog hexadecimal two's-complement. **Không được copy nguyên logic Q3.29 từ Lab 2**. Kết quả số ở đây là mô hình tính hệ số, phải chạy HDL testbench và kiểm tra clipping.
