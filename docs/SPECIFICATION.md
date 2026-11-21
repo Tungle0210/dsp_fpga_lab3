@@ -2,6 +2,8 @@
 
 > **Đã chốt làm chuẩn phát triển** · **Chưa được xác nhận bằng mô phỏng RTL/hardware** · Khi thay đổi phải cập nhật file này bằng PR do Leader duyệt.
 
+**Giới hạn công cụ:** Viết **RTL + testbench 100% Verilog/SystemVerilog**, Quartus để tổng hợp, Questa/ModelSim để mô phỏng. **Không dùng Python/MATLAB**. Bảng hệ số Q5.27 đã cung cấp được mô tả bằng hằng số Verilog/SystemVerilog (`case`, `localparam` hoặc ROM `.hex` nếu cần). Dùng `$sin`, `$cos`, `$ln`, `real` **chỉ trong testbench**, tuyệt đối không dùng trong RTL tổng hợp.
+
 ## A. Thông số hệ thống
 
 | Hạng mục | Giá trị |
