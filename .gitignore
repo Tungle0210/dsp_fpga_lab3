@@ -1,0 +1,25 @@
+# Quartus generated database and temporary results
+db/
+incremental_db/
+output_files/
+*.qws
+*.rpt.bak
+*.done
+*.jdi
+*.pof
+*.jic
+*.smsg
+*.summary
+*.qdb
+work/
+transcript
+vsim.wlf
+*.vcd
+*.fst
+*.log.tmp
+*.pyc
+__pycache__/
+.DS_Store
+Thumbs.db
+
+# Do NOT ignore: *.qpf, *.qsf, *.sdc, *.sv, *.v, *.hex, *.mif, evidence reports intentionally stored
